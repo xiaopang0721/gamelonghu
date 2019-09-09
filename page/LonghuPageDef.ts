@@ -27,11 +27,7 @@ module gamelonghu.page {
 		static myinit(str: string) {
 			super.myinit(str);
 			LonghuClip.init()
-			if (WebConfig.baseplatform == PageDef.BASE_PLATFORM_TYPE_NQP) {
-				PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU] = LonghuPage;
-			} else {
-				PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU] = LonghuPageOld;
-			}
+			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU] = LonghuPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_MAP] = LonghuMapPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_BEGIN] = LonghuBeginPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_RULE] = LonghuRulePage;
