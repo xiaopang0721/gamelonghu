@@ -3,7 +3,7 @@
 */
 module gamelonghu.page {
 	export class LonghuSzListPage extends game.gui.base.Page {
-		private _viewUI: ui.game_ui.tongyong.ShangZhuangLBUI;
+		private _viewUI: ui.nqp.game_ui.tongyong.ShangZhuangLBUI;
 		private _isShenQing: boolean = false;
 
 		constructor(v: Game, onOpenFunc?: Function, onCloseFunc?: Function) {
@@ -116,7 +116,7 @@ module gamelonghu.page {
 		}
 	}
 
-	class SzItemRender extends ui.game_ui.tongyong.WanJia1UI {
+	class SzItemRender extends ui.nqp.game_ui.tongyong.WanJia1UI {
 		private _game: Game;
 		private _unit: Unit;
 		private _clipMoney: LonghuClip;
