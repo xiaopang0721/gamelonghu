@@ -7,7 +7,7 @@ module gamelonghu.page {
 		TYPE_CARD_BEISHU = 1,
 	}
 	export class LonghuRulePage extends game.gui.base.Page {
-		private _viewUI: ui.game_ui.longhu.LongHu_GuiZeUI;
+		private _viewUI: ui.nqp.game_ui.longhu.LongHu_GuiZeUI;
 
 		constructor(v: Game, onOpenFunc?: Function, onCloseFunc?: Function) {
 			super(v, onOpenFunc, onCloseFunc);

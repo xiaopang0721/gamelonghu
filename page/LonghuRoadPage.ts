@@ -3,7 +3,7 @@
 */
 module gamelonghu.page {
 	export class LonghuRoadPage extends game.gui.base.Page {
-		private _viewUI: ui.game_ui.longhu.ZouShiTuUI;
+		private _viewUI: ui.nqp.game_ui.longhu.ZouShiTuUI;
 		private _isShenQing: boolean = false;
 		private _mapinfo: LonghuMapInfo;
 		private _gridEditor: GridEditor;
@@ -127,7 +127,7 @@ module gamelonghu.page {
 			super.close();
 		}
 	}
-	class MapRecordRender extends ui.game_ui.longhu.component.RecordRenderUI {
+	class MapRecordRender extends ui.nqp.game_ui.longhu.component.RecordRenderUI {
 		private _game: Game;
 		private _data: any;
 		constructor() {

@@ -4,7 +4,7 @@
 module gamelonghu.page {
 	const STATUS_CONFIG = ["准备中", "发牌中", "开始下注", "下注中", "停止下注", "开牌中", "结算中", "显示结算", "准备中"];
 	export class LonghuPageOld extends game.gui.base.Page {
-		private _viewUI: ui.game_ui.longhu.LongHu_HUDUI;
+		private _viewUI: ui.nqp.game_ui.longhu.LongHu_HUDUI;
 		private _player: any;
 		private _playerInfo: any;
 		private _listState: any;
