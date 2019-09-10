@@ -10,18 +10,16 @@ module gamelonghu.page {
 		static PAGE_LONGHU_MAP: string = "2";
 		//龙虎斗开始下注界面
 		static PAGE_LONGHU_BEGIN: string = "3";
+		//龙虎斗游戏VS界面
+		static PAGE_LONGHU_VS: string = "4";
+		//龙虎斗玩家列表界面
+		static PAGE_LONGHU_PLAYER_LIST: string = "5";
+		//龙虎斗停止下注界面
+		static PAGE_LONGHU_END: string = "6";
+		//龙虎斗大路界面
+		static PAGE_LONGHU_ROAD: string = "7";
 		//龙虎斗游戏规则界面
 		static PAGE_LONGHU_RULE: string = "101";
-		//龙虎斗游戏VS界面
-		static PAGE_LONGHU_VS: string = "6";
-		//龙虎斗玩家列表界面
-		static PAGE_LONGHU_PLAYER_LIST: string = "10";
-		//龙虎斗停止下注界面
-		static PAGE_LONGHU_END: string = "11";
-		//龙虎斗上庄列表界面
-		static PAGE_LONGHU_SZ_LIST: string = "12";
-		//龙虎斗大路界面
-		static PAGE_LONGHU_ROAD: string = "13";
 
 
 		static myinit(str: string) {
@@ -34,7 +32,6 @@ module gamelonghu.page {
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_VS] = LonghuVSPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_PLAYER_LIST] = LonghuPlayerListPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_END] = LonghuEndPage;
-			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_SZ_LIST] = LonghuSzListPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_ROAD] = LonghuRoadPage;
 
 
