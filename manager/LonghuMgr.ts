@@ -80,7 +80,7 @@ module gamelonghu.manager {
 			if (!this._cards.length) return;
 			if (!_cards) return;
 			let card = this._cards[i + 1] as LonghuData;
-			if (card){
+			if (card) {
 				card.Init(_cards.GetVal());
 				card.index = i;
 				card.sortScore = i;
@@ -99,13 +99,17 @@ module gamelonghu.manager {
 
 		//发牌
 		fapai() {
-			// let counter = 0;
+			let counter = 0;
 			for (let i: number = 0; i < this._cards.length; i++) {
 				Laya.timer.once(200 * i, this, () => {
 					this._game.playSound(PathGameTongyong.music_tongyong + "fapai.mp3", false);
 					let card = this._cards[i];
 					if (!card) return;
 					card.fapai();
+					counter++;
+					if (counter >= this._cards.length) {
+						this.event(LonghuMgr.DEAL_OVER);
+					}
 				});
 			}
 		}

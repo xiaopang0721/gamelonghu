@@ -798,11 +798,7 @@ module gamelonghu.page {
                 case MAP_STATUS.PLAY_STATUS_PUSH_CARD:// 发牌阶段
                     this._viewUI.txt_status.index = 4;
                     this._pageHandle.pushClose({ id: LonghuPageDef.PAGE_LONGHU_VS, parent: this._game.uiRoot.HUD });
-                    for (let i: number = 0; i < 3; i++) {
-                        Laya.timer.once(200 * i, this, () => {
-                            this._viewUI.paixieRight.ani2.play(0, false);
-                        });
-                    }
+                    this._viewUI.paixieRight.ani2.play(0, true);
                     break;
                 case MAP_STATUS.PLAY_STATUS_BET:// 下注阶段
                     if (this._longhuMgr.isReConnect && Math.floor(this._longhuMapInfo.GetCountDown() - this._game.sync.serverTimeBys) < 13) {
@@ -1335,7 +1331,7 @@ module gamelonghu.page {
             this._viewUI.txt_id.visible = false;
             this._viewUI.box_time.visible = false;
             this._viewUI.xipai.visible = false;
-            this._viewUI.paixieRight.ani_chupai.stop();
+            this._viewUI.paixieRight.ani_chupai.gotoAndStop(12);
             this._viewUI.paixieRight.ani2.gotoAndStop(0);
             this._viewUI.long_win.visible = false;
             this._viewUI.hu_win.visible = false;
