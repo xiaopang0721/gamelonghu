@@ -96,6 +96,7 @@ module gamelonghu.page {
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/kaipai.atlas",
+                PathGameTongyong.ui_tongyong_sk + "HeGuan.png",
             ];
         }
 
@@ -119,7 +120,8 @@ module gamelonghu.page {
 
             this._viewUI.mouseThrough = true;
             this._game.playMusic(Path_game_longhu.music_longhu + "lh_bgm.mp3");
-            this._viewUI.btn_spread.left = this._game.isFullScreen ? 25 : 10;
+            this._viewUI.btn_spread.left = this._game.isFullScreen ? 30 : 10;
+            this._viewUI.box_menu.left = this._game.isFullScreen ? 25 : 10;
         }
 
         // 页面打开时执行函数
