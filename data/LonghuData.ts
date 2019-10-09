@@ -6,7 +6,7 @@ module gamelonghu.data {
 		public _isFan: boolean = false;
 		private _b: boolean;
 		//牌X轴位置，牌Y轴位置
-		private _posList: any = [[420, 160], [460, 270], [811, 270]];
+		private _posList: any = [[420, 160], [380, 270], [891, 270]];
 		private _curIdx: number;
 		private _size: number = 0.8;//牌尺寸
 
