@@ -9,7 +9,7 @@ module gamelonghu.data {
 		//筹码起始位置(主玩家，其他玩家，庄家，座位0，座位1，座位2，座位3，座位4，座位5)  
 		private _chipStart = [[190, 610], [70, 657], [642, 111],
 		[85, 200], [85, 325], [85, 500], [1225, 180], [1225, 345], [1225, 500]];
-		private _chipEnd = [[625, 275], [295, 265], [980, 265], [180, 465], [310, 465], [445, 465], [575, 465], [700, 465], [835, 465], [965, 465], [1095, 465]];  //筹码终点位置
+		private _chipEnd = [[625, 275], [390, 480], [890, 480]];  //筹码终点位置
 		private _startIndex: number;
 		private _targetIndex: number;
 		private _radiusX: number;//圆形区域X半径
@@ -26,8 +26,8 @@ module gamelonghu.data {
 			this._targetIndex = targetIdx - 1;
 			this.rotateAngle = MathU.randomRange(0, 360);
 			this._seatIndex = unitIndex;
-			this._radiusX = targetIdx <= 1 ? 85 : targetIdx <= 3 ? 100 : 30;
-			this._radiusY = targetIdx <= 1 ? 40 : targetIdx <= 3 ? 45 : 30;
+			this._radiusX = targetIdx <= 1 ? 85 : 200;
+			this._radiusY = targetIdx <= 1 ? 40 : 60;
 		}
 
 		sendChip() {
@@ -50,7 +50,7 @@ module gamelonghu.data {
 			this.targe_pos.x = target[index][0];
 			this.targe_pos.y = target[index][1];
 			if (!this.pos) return;
-			Laya.Tween.to(this.pos, { x: this.targe_pos.x, y: this.targe_pos.y }, 500 + count * 15, Laya.Ease.backIn, Handler.create(this, () => {
+			Laya.Tween.to(this.pos, { x: this.targe_pos.x, y: this.targe_pos.y }, 500 + count * 8, Laya.Ease.backIn, Handler.create(this, () => {
 				this.isFinalPos = true;
 				game.sceneObjectMgr.clearOfflineObject(this);
 			}));

@@ -46,7 +46,6 @@ module gamelonghu.page {
         private _areaList: Array<any> = [];//下注区域UI集合
         private _areaKuangUIList: Array<any> = [];//下注区域边框集合
         private _txtTotalUIList: Array<any> = [];//总下注文本UI集合
-        private _txtBetUIList: Array<any> = [];//玩家下注文本UI集合
         private _seatUIList: Array<any> = [];//座位UI集合
         private _chipUIList: Array<Button> = [];//筹码UI集合
         private _chipGuangUIList: Array<LImage> = [];//筹码光效UI集合
@@ -63,10 +62,10 @@ module gamelonghu.page {
         private _curChipY: number;//当前选择筹码y轴位置
         private _chipSortScore: number = 0;//筹码层级
         private _unitSeated: Array<any> = [];//入座精灵信息集合
-        private _chipTotalList: Array<any> = [[], [], [], [], [], [], [], [], [], [], []];//区域绘制筹码集合
-        private _betTotalList: Array<any> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];//区域下注总额集合（所有玩家）
-        private _betMainList: Array<any> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];//区域下注总额集合（主玩家）
-        private _rebetList: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];//重复下注列表(11个区域)
+        private _chipTotalList: Array<any> = [[], [], []];//区域绘制筹码集合
+        private _betTotalList: Array<any> = [0, 0, 0];//区域下注总额集合（所有玩家）
+        private _betMainList: Array<any> = [0, 0, 0];//区域下注总额集合（主玩家）
+        private _rebetList: Array<number> = [0, 0, 0];//重复下注列表(11个区域)
         private _mainHeadPos: any = [[0, 0], [0, -10]];//主玩家座位头像初始位置
         private _headStartPos: any = [[0, 0], [0, 158], [0, 316], [0, 0], [0, 158], [0, 316]];//座位头像初始位置
         private _headEndPos: any = [[10, 0], [10, 158], [10, 316], [-10, 0], [-10, 158], [-10, 316]];//座位头像移动位置
@@ -256,10 +255,6 @@ module gamelonghu.page {
                     this._game.playSound(Path_game_longhu.music_longhu + "he.mp3", false);
                 })
                 result.push(0);
-            }
-            if (this._longhuMapInfo && this._curTurnNum <= 30) {
-                result.push(3 - longCard.GetCardColor() + 3);
-                result.push(3 - huCard.GetCardColor() + 7);
             }
             for (let i = 0; i < result.length; i++) {
                 Laya.timer.once(600, this, () => {
@@ -560,15 +555,8 @@ module gamelonghu.page {
         }
 
         private updateBetNum(): void {
-            for (let i = 0; i < 11; i++) {
-                if (i < 3) {
-                    this._htmlTextArr[i].innerHTML = StringU.substitute("<span style='color:#ffd200'>{0}</span><span style='color:#ffffff'>/{1}</span>", this._betMainList[i], this._betTotalList[i]);
-                } else {
-                    this._txtTotalUIList[i].text = this._betTotalList[i];
-                }
-                if (i > 2) {
-                    this._txtBetUIList[i - 3].text = this._betMainList[i];
-                }
+            for (let i = 0; i < 3; i++) {
+                this._htmlTextArr[i].innerHTML = StringU.substitute("<span style='color:#ffd200'>{0}</span><span style='color:#ffffff'>/{1}</span>", this._betMainList[i], this._betTotalList[i]);
             }
         }
 
@@ -607,7 +595,7 @@ module gamelonghu.page {
             this.addMoneyClip(info.SeatIndex, info.SettleVal);
         }
 
-        private areaName = ["和", "龙", "虎", "龙黑", "龙红", "龙梅", "龙方", "虎黑", "虎红", "虎梅", "虎方"];
+        private areaName = ["和", "龙", "虎"];
         private onBattleResult(info: any): void {
             for (let i = 0; i < info.Results.length; i++) {
                 if (this._curTurnNum > 30 && info.Results[i] > 3) continue;
@@ -622,7 +610,7 @@ module gamelonghu.page {
         private flyChipEffect(): void {
             if (this._cardsArr && !this._cardsArr.length) return;
             if (this._curStatus != MAP_STATUS.PLAY_STATUS_SETTLE) return;
-            let resultList: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0];
+            let resultList: Array<number> = [0, 0, 0];
             let longCard: LonghuData = this._cardsArr[0];
             let huCard: LonghuData = this._cardsArr[1];
             let isHeJu = false;
@@ -641,20 +629,6 @@ module gamelonghu.page {
                 if (this._betTotalList[0] <= 0)
                     resultList[0] = 1;
             }
-            for (let i = 0; i < 4; i++) {
-                if (longCard.GetCardColor() != i) {
-                    resultList[3 - i + 3] = 1;
-                } else {
-                    if (this._betTotalList[3 - i + 3] <= 0)
-                        resultList[3 - i + 3] = 1;
-                }
-                if (huCard.GetCardColor() != i) {
-                    resultList[3 - i + 7] = 1;
-                } else {
-                    if (this._betTotalList[3 - i + 7] <= 0)
-                        resultList[3 - i + 7] = 1;
-                }
-            }
             for (let i = 0; i < this._chipTotalList.length; i++) {
                 let chipArr = this._chipTotalList[i] || [];
                 if (resultList[i] == 1) {
@@ -668,9 +642,6 @@ module gamelonghu.page {
                         Laya.timer.once(800, this, () => {
                             this._game.playSound(Path_game_longhu.music_longhu + "piaoqian.mp3", false);
                             for (let j = 0; j < 20; j++) {
-                                if (i > 2 && this._curTurnNum > 30) {
-                                    continue;
-                                }
                                 let ranType = MathU.randomRange(1, 5);
                                 let ranVal = this._chipArr[ranType - 1];
                                 this._chipSortScore++;
@@ -827,7 +798,6 @@ module gamelonghu.page {
                     }
 
                     for (let i = 0; i < this._areaKuangUIList.length; i++) {
-                        if (this._curTurnNum > 30 && i > 2) continue;
                         this._areaKuangUIList[i].visible = true;
                         this._areaKuangUIList[i].ani1.play(0, true);
                         Laya.timer.once(1000, this, () => {
@@ -977,7 +947,6 @@ module gamelonghu.page {
                 return;
             }
             for (let i = 0; i < this._rebetList.length; i++) {
-                if (this._curTurnNum > 30 && i > 2) continue;
                 let antes = this._rebetList[i]//之前区域i下注总额
                 if (antes) {
                     //从最大筹码开始循环，优先丢出大额筹码，剩下零头再由小额筹码去拼凑
@@ -1006,12 +975,6 @@ module gamelonghu.page {
             if (this._curStatus != MAP_STATUS.PLAY_STATUS_BET) {
                 this._game.uiRoot.topUnder.showTips("当前不在下注时间，请在下注时间再进行下注！");
                 return;
-            }
-            if (this._curTurnNum > 30) {
-                if (index > 2) {
-                    this._game.uiRoot.topUnder.showTips("老板，30局后不能下注花色哦~");
-                    return;
-                }
             }
             if (this._betWait) return;//投注间隔
             let total = this._betMainList[index];
@@ -1277,27 +1240,18 @@ module gamelonghu.page {
             this._chipGuangUIList = [];
             this._areaKuangUIList = [];
             this._txtTotalUIList = [];
-            this._txtBetUIList = [];
             this._htmlTextArr = [];
-            for (let i: number = 0; i < 11; i++) {
+            for (let i: number = 0; i < 3; i++) {
                 this._areaList.push(this._viewUI["area" + i]);
                 this._areaKuangUIList.push(this._viewUI["kuang" + i]);
                 this._txtTotalUIList.push(this._viewUI["txt_total" + i]);
                 this._areaKuangUIList[i].visible = false;
                 this._areaList[i].on(LEvent.CLICK, this, this.onAreaBetClick, [i]);
 
-                if (i < 3) {
-                    this._htmlTextArr[i] = TextFieldU.createHtmlText(this._txtTotalUIList[i]);
-                    this._htmlTextArr[i].style.lineHeight = 30;
-                    this._htmlTextArr[i].style.valign = "middle";
-                    this._htmlTextArr[i].innerHTML = "<span style='color:#ffd200'>0</span><span style='color:#ffffff'>/0</span>";
-                } else {
-                    this._txtTotalUIList[i].text = "0";
-                }
-            }
-            for (let i: number = 0; i < 8; i++) {
-                this._txtBetUIList.push(this._viewUI["txt_bet" + (i + 3)]);
-                this._txtBetUIList[i].text = "0";
+                this._htmlTextArr[i] = TextFieldU.createHtmlText(this._txtTotalUIList[i]);
+                this._htmlTextArr[i].style.lineHeight = 30;
+                this._htmlTextArr[i].style.valign = "middle";
+                this._htmlTextArr[i].innerHTML = "<span style='color:#ffd200'>0</span><span style='color:#ffffff'>/0</span>";
             }
             for (let i: number = 0; i < 5; i++) {
                 this._chipUIList.push(this._viewUI["btn_chip" + i]);
@@ -1407,26 +1361,19 @@ module gamelonghu.page {
             //主玩家UI
             this._viewUI.main_player.clip_money.visible = false;
             //界面UI
-            for (let i = 0; i < 11; i++) {
-                if (i < 8) {
-                    this._txtBetUIList[i].text = "0";
-                }
-                if (i < 3) {
-                    this._htmlTextArr[i].innerHTML = "<span style='color:#ffd200'>0</span>/<span style='color:#ffffff'>0</span>";
-                } else {
-                    this._txtTotalUIList[i].text = "0";
-                }
+            for (let i = 0; i < 3; i++) {
+                this._htmlTextArr[i].innerHTML = "<span style='color:#ffd200'>0</span>/<span style='color:#ffffff'>0</span>";
             }
         }
 
         private resetData(): void {
             this._battleIndex = -1;
             this._cardsArr = [];
-            for (let i = 0; i < 11; i++) {
+            for (let i = 0; i < 3; i++) {
                 this._chipTotalList[i] = [];
             }
-            this._betTotalList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            this._betMainList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            this._betTotalList = [0, 0, 0];
+            this._betMainList = [0, 0, 0];
             this._mainPlayerBenefit = 0;
             this._betMainTotal = 0;
             this._betAllTotal = 0;
