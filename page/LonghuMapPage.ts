@@ -1193,6 +1193,7 @@ module gamelonghu.page {
                     seat.img_icon.skin = PathGameTongyong.ui_tongyong_general + "tu_weizi.png";
                     seat.img_qifu.visible = false;
                     seat.qifu_type.visible = false;
+                    seat.img_txk.visible = false;
                 }
             }
         }
