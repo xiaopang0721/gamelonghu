@@ -133,9 +133,9 @@ module gamelonghu.page {
             this._viewUI.btn_set.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._viewUI.btn_zhanji.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._viewUI.btn_repeat.on(LEvent.CLICK, this, this.onBtnClickWithTween);
-            this._viewUI.btn_playerList.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._viewUI.btn_road.on(LEvent.CLICK, this, this.onBtnClickWithTween);
             this._viewUI.btn_qifu.on(LEvent.CLICK, this, this.onBtnClickWithTween);
+            this._viewUI.btn_playerList.on(LEvent.CLICK, this, this.onClickHandle);
             this._viewUI.long_win.aniWin.on(LEvent.COMPLETE, this, this.onAniPlayOver);
             this._viewUI.hu_win.aniWin.on(LEvent.COMPLETE, this, this.onAniPlayOver);
 
@@ -849,14 +849,17 @@ module gamelonghu.page {
             this._pageHandle.reset();//清空额外界面存储数组
         }
 
+        //点击事件
+        protected onClickHandle(e: LEvent): void {
+            //玩家列表
+            this._game.uiRoot.general.open(LonghuPageDef.PAGE_LONGHU_PLAYER_LIST);
+        }
+
         //按钮缓动回调
         protected onBtnTweenEnd(e: any, target: any): void {
             switch (target) {
                 case this._viewUI.btn_spread:
                     this.showMenu(true);
-                    break;
-                case this._viewUI.btn_playerList://玩家列表
-                    this._game.uiRoot.general.open(LonghuPageDef.PAGE_LONGHU_PLAYER_LIST);
                     break;
                 case this._viewUI.btn_road://大路详情
                     this._game.uiRoot.general.open(LonghuPageDef.PAGE_LONGHU_ROAD);
@@ -1370,9 +1373,9 @@ module gamelonghu.page {
                 this._viewUI.btn_set.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._viewUI.btn_zhanji.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._viewUI.btn_repeat.off(LEvent.CLICK, this, this.onBtnClickWithTween);
-                this._viewUI.btn_playerList.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._viewUI.btn_road.off(LEvent.CLICK, this, this.onBtnClickWithTween);
                 this._viewUI.btn_qifu.off(LEvent.CLICK, this, this.onBtnClickWithTween);
+                this._viewUI.btn_playerList.off(LEvent.CLICK, this, this.onClickHandle);
                 this._viewUI.long_win.aniWin.off(LEvent.COMPLETE, this, this.onAniPlayOver);
                 this._viewUI.hu_win.aniWin.off(LEvent.COMPLETE, this, this.onAniPlayOver);
                 for (let i: number = 0; i < this._areaList.length; i++) {
