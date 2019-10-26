@@ -334,7 +334,7 @@ module gamelonghu.page {
                             this._viewUI.main_player.img_qifu.visible = true;
                             this._viewUI.main_player.img_icon.skin = TongyongUtil.getHeadUrl(mainUnit.GetHeadImg(), 2);
                         })
-                    } 
+                    }
                     // else {
                     //     this._viewUI.main_player.img_qifu.visible = true;
                     //     this._viewUI.main_player.img_icon.skin = TongyongUtil.getHeadUrl(mainUnit.GetHeadImg(), 2);
@@ -1170,22 +1170,18 @@ module gamelonghu.page {
                     if (qifu_index && unitIndex == qifu_index) {
                         seat.qifu_type.visible = true;
                         seat.qifu_type.skin = this._qifuTypeImgUrl;
-                        this.playTween1(this._seatUIList[i].qifu_type, qifu_index);
-                    }
-                    //时间戳变化 才加上祈福标志
-                    if (TongyongUtil.getIsHaveQiFu(unit, this._game.sync.serverTimeBys)) {
-                        if (qifu_index && unitIndex == qifu_index) {
-                            Laya.timer.once(2500, this, () => {
-                                seat.img_qifu.visible = true;
-                                seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
-                            })
-                        } 
-                        // else {
-                        //     seat.img_qifu.visible = true;
-                        //     seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
-                        // }
+                        this.playTween1(seat.qifu_type, qifu_index);
+                        Laya.timer.once(2500, this, () => {
+                            seat.img_qifu.visible = true;
+                            seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
+                        })
                     } else {
-                        seat.img_qifu.visible = false;
+                        //时间戳变化 才加上祈福标志
+                        if (TongyongUtil.getIsHaveQiFu(unit, this._game.sync.serverTimeBys)) {
+                            seat.img_qifu.visible = true;
+                        } else {
+                            seat.img_qifu.visible = false;
+                        }
                         seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
                     }
                 } else {
