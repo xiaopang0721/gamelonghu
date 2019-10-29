@@ -95,6 +95,9 @@ module gamelonghu.page {
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/kaipai.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/hu.atlas",
+				Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/bipai.atlas",
                 PathGameTongyong.ui_tongyong_sk + "HeGuan.png",
             ];
         }

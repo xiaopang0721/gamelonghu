@@ -46,6 +46,8 @@ module gamelonghu.page {
 				PathGameTongyong.atlas_game_ui_tongyong + "tuichu.atlas",
 				DatingPath.atlas_dating_ui + "qifu.atlas",
 				Path_game_longhu.atlas_game_ui + "longhu/effect/bipai.atlas",
+				Path_game_longhu.atlas_game_ui + "longhu/effect/hu.atlas",
+				Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "general/effect/suiji.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
