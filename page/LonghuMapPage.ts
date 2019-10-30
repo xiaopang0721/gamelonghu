@@ -96,7 +96,7 @@ module gamelonghu.page {
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/kaipai.atlas",
                 Path_game_longhu.atlas_game_ui + "longhu/effect/hu.atlas",
-				Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
                 Path_game_longhu.atlas_game_ui + "longhu/effect/bipai.atlas",
                 PathGameTongyong.ui_tongyong_sk + "HeGuan.png",
             ];
@@ -1260,7 +1260,9 @@ module gamelonghu.page {
             this._viewUI.long_win.visible = false;
             this._viewUI.hu_win.visible = false;
             this._viewUI.kaipai_long.visible = false;
+            this._viewUI.kaipai_long.ani_kaipai.gotoAndStop(0);
             this._viewUI.kaipai_hu.visible = false;
+            this._viewUI.kaipai_hu.ani_kaipai.gotoAndStop(0);
             this._viewUI.box_banker.visible = false;
             this._viewUI.btn_repeat.disabled = true;
         }
@@ -1337,6 +1339,10 @@ module gamelonghu.page {
             for (let i = 0; i < 3; i++) {
                 this._htmlTextArr[i].innerHTML = "<span style='color:#ffd200'>0</span>/<span style='color:#ffffff'>0</span>";
             }
+            this._viewUI.kaipai_long.visible = false;
+            this._viewUI.kaipai_long.ani_kaipai.gotoAndStop(0);
+            this._viewUI.kaipai_hu.visible = false;
+            this._viewUI.kaipai_hu.ani_kaipai.gotoAndStop(0);
         }
 
         private resetData(): void {
