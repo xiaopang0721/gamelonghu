@@ -558,6 +558,7 @@ module gamelonghu.page {
             chip.visible = false;
             this._chipTotalList[targetIdx - 1].push(chip);
             if (this._longhuMgr.isReConnect && this._curStatus != MAP_STATUS.PLAY_STATUS_BET) {
+                chip.visible = true;
                 chip.drawChip();
             }
             else {
@@ -1185,7 +1186,7 @@ module gamelonghu.page {
                                 seat.img_qifu.visible = true;
                                 seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
                             })
-                        } 
+                        }
                         // else {
                         //     seat.img_qifu.visible = true;
                         //     seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
