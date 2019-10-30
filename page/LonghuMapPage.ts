@@ -1171,23 +1171,27 @@ module gamelonghu.page {
                     seat.img_txk.visible = true;
                     seat.img_vip.visible = unit.GetVipLevel() > 0;
                     seat.img_vip.skin = TongyongUtil.getVipUrl(unit.GetVipLevel());
+                    seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
                     //祈福成功 头像上就有动画
                     if (qifu_index && unitIndex == qifu_index) {
                         seat.qifu_type.visible = true;
                         seat.qifu_type.skin = this._qifuTypeImgUrl;
                         this.playTween1(seat.qifu_type, qifu_index);
-                        Laya.timer.once(2500, this, () => {
-                            seat.img_qifu.visible = true;
-                            seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
-                        })
+                    }
+                    //时间戳变化 才加上祈福标志
+                    if (TongyongUtil.getIsHaveQiFu(unit, this._game.sync.serverTimeBys)) {
+                        if (qifu_index && unitIndex == qifu_index) {
+                            Laya.timer.once(2500, this, () => {
+                                seat.img_qifu.visible = true;
+                                seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
+                            })
+                        } 
+                        // else {
+                        //     seat.img_qifu.visible = true;
+                        //     seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
+                        // }
                     } else {
-                        //时间戳变化 才加上祈福标志
-                        if (TongyongUtil.getIsHaveQiFu(unit, this._game.sync.serverTimeBys)) {
-                            seat.img_qifu.visible = true;
-                        } else {
-                            seat.img_qifu.visible = false;
-                        }
-                        seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
+                        seat.img_qifu.visible = false;
                     }
                 } else {
                     seat.txt_name.text = "";
