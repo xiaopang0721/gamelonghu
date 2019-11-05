@@ -157,8 +157,8 @@ module gamelonghu.page {
             this._game.sceneObjectMgr.on(LonghuMapInfo.EVENT_CARD_POOL_CHANGE, this, this.onUpdateCardPool);//牌库数量变化
             this._game.qifuMgr.on(QiFuMgr.QIFU_FLY, this, this.qifuFly);
 
-            this._viewUI.kaipai_long.ani_kaipai.on(LEvent.COMPLETE, this, this.onSeeCardOver, [1]);
-            this._viewUI.kaipai_hu.ani_kaipai.on(LEvent.COMPLETE, this, this.onSeeCardOver, [2]);
+            this._viewUI.kaipai_long.ani_kaipai.on(LEvent.COMPLETE, this, this.onSeeLongCardOver);
+            this._viewUI.kaipai_hu.ani_kaipai.on(LEvent.COMPLETE, this, this.onSeeHuCardOver);
 
             this.onUpdateUnitOffline();
             this.onUpdateSeatedList();
@@ -334,7 +334,7 @@ module gamelonghu.page {
                             this._viewUI.main_player.img_qifu.visible = true;
                             this._viewUI.main_player.img_icon.skin = TongyongUtil.getHeadUrl(mainUnit.GetHeadImg(), 2);
                         })
-                    } 
+                    }
                     // else {
                     //     this._viewUI.main_player.img_qifu.visible = true;
                     //     this._viewUI.main_player.img_icon.skin = TongyongUtil.getHeadUrl(mainUnit.GetHeadImg(), 2);
@@ -421,20 +421,16 @@ module gamelonghu.page {
             }
         }
 
-        private onSeeCardOver(index: number): void {
+        private onSeeLongCardOver(): void {
             if (this._longhuMgr.isReConnect) return;
-            if (this._cardsArr.length < 2) return;
-            if (index == 1) {
-                this._viewUI.kaipai_long.ani_kaipai.stop();
-                this._viewUI.kaipai_long.visible = false;
-                this._game.playSound(StringU.substitute(Path_game_longhu.music_longhu + "dian{0}.mp3", this._cardsArr[0].GetCardVal()), false);
+            this._viewUI.kaipai_long.ani_kaipai.stop();
+            this._viewUI.kaipai_long.visible = false;
+        }
 
-            } else {
-                this._viewUI.kaipai_hu.ani_kaipai.stop();
-                this._viewUI.kaipai_hu.visible = false;
-                this._game.playSound(StringU.substitute(Path_game_longhu.music_longhu + "dian{0}.mp3", this._cardsArr[1].GetCardVal()), false);
-            }
-
+        private onSeeHuCardOver(): void {
+            if (this._longhuMgr.isReConnect) return;
+            this._viewUI.kaipai_hu.ani_kaipai.stop();
+            this._viewUI.kaipai_hu.visible = false;
         }
 
         //战斗结构体更新
@@ -457,12 +453,18 @@ module gamelonghu.page {
                                 this._viewUI.kaipai_long.ani_kaipai.play(0, false);
                                 this._viewUI.kaipai_long.card.skin = StringU.substitute(PathGameTongyong.ui_tongyong_pai + "{0}.png", cardVal);
                                 this._longhuMgr.yincang(1);
+                                Laya.timer.once(1500, this, () => {
+                                    this._game.playSound(StringU.substitute(Path_game_longhu.music_longhu + "dian{0}.mp3", this._cardsArr[0].GetCardVal()), false);
+                                })
                             } else {
                                 Laya.timer.once(1500, this, () => {
                                     this._viewUI.kaipai_hu.visible = true;
                                     this._viewUI.kaipai_hu.ani_kaipai.play(0, false);
                                     this._viewUI.kaipai_hu.card.skin = StringU.substitute(PathGameTongyong.ui_tongyong_pai + "{0}.png", cardVal);
                                     this._longhuMgr.yincang(2);
+                                })
+                                Laya.timer.once(3000, this, () => {
+                                    this._game.playSound(StringU.substitute(Path_game_longhu.music_longhu + "dian{0}.mp3", this._cardsArr[1].GetCardVal()), false);
                                 })
                             }
                         }
@@ -1192,7 +1194,7 @@ module gamelonghu.page {
                                 seat.img_qifu.visible = true;
                                 seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
                             })
-                        } 
+                        }
                         // else {
                         //     seat.img_qifu.visible = true;
                         //     seat.img_icon.skin = TongyongUtil.getHeadUrl(unit.GetHeadImg(), 2);
@@ -1419,8 +1421,8 @@ module gamelonghu.page {
                 this._game.sceneObjectMgr.off(LonghuMapInfo.EVENT_CARD_POOL_CHANGE, this, this.onUpdateCardPool);//牌库数量变化
                 this._game.qifuMgr.off(QiFuMgr.QIFU_FLY, this, this.qifuFly);
 
-                this._viewUI.kaipai_long.ani_kaipai.off(LEvent.COMPLETE, this, this.onSeeCardOver);
-                this._viewUI.kaipai_hu.ani_kaipai.off(LEvent.COMPLETE, this, this.onSeeCardOver);
+                this._viewUI.kaipai_long.ani_kaipai.off(LEvent.COMPLETE, this, this.onSeeLongCardOver);
+                this._viewUI.kaipai_hu.ani_kaipai.off(LEvent.COMPLETE, this, this.onSeeHuCardOver);
                 this._game.uiRoot.HUD.close(LonghuPageDef.PAGE_LONGHU_BEGIN);
                 this._game.uiRoot.HUD.close(LonghuPageDef.PAGE_LONGHU_END);
                 this.resetAll();
