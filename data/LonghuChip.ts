@@ -8,7 +8,7 @@ module gamelonghu.data {
 		}
 		//筹码起始位置(主玩家，其他玩家，庄家，座位0，座位1，座位2，座位3，座位4，座位5)  
 		private _chipStart = [[190, 610], [70, 657], [642, 111],
-		[85, 200], [85, 325], [85, 500], [1225, 180], [1225, 345], [1225, 500]];
+		[85, 215], [85, 345], [85, 500], [1225, 180], [1225, 345], [1225, 500]];
 		private _chipEnd = [[625, 275], [390, 480], [890, 480]];  //筹码终点位置
 		private _startIndex: number;
 		private _targetIndex: number;
@@ -50,6 +50,7 @@ module gamelonghu.data {
 			this.targe_pos.x = target[index][0];
 			this.targe_pos.y = target[index][1];
 			if (!this.pos) return;
+			super.comebackChip();
 			Laya.Tween.to(this.pos, { x: this.targe_pos.x, y: this.targe_pos.y }, 500 + count * 8, Laya.Ease.backIn, Handler.create(this, () => {
 				this.isFinalPos = true;
 				game.sceneObjectMgr.clearOfflineObject(this);
