@@ -511,7 +511,7 @@ module gamelonghu.page {
             let isMainPlayer: boolean = info.SeatIndex == mainIdx;
             if (isMainPlayer) {//主玩家
                 startIdx = 0;
-                this.moveHead(this._viewUI.main_player, this._mainHeadPos[0][0], this._mainHeadPos[0][1], this._mainHeadPos[1][0], this._mainHeadPos[1][1]);
+                //this.moveHead(this._viewUI.main_player, this._mainHeadPos[0][0], this._mainHeadPos[0][1], this._mainHeadPos[1][0], this._mainHeadPos[1][1]);
             } else {//其他玩家
                 startIdx = 1;
                 for (let i = 0; i < this._unitSeated.length; i++) {
@@ -535,8 +535,8 @@ module gamelonghu.page {
         //头像出筹码动态效果
         private moveHead(view, startX, startY, endX, endY): void {
             Laya.Tween.clearAll(view);
-            Laya.Tween.to(view, { x: endX, y: endY }, 150, null, Handler.create(this, () => {
-                Laya.Tween.to(view, { x: startX, y: startY }, 150);
+            Laya.Tween.to(view, { x: endX, y: endY }, 50, null, Handler.create(this, () => {
+                Laya.Tween.to(view, { x: startX, y: startY }, 50);
             }))
         }
 
@@ -567,7 +567,8 @@ module gamelonghu.page {
                 chip.drawChip();
             }
             else {
-                Laya.timer.once(350, this, () => {
+                let range = MathU.randomRange(0,300)
+                Laya.timer.once(range, this, () => {
                     chip.visible = true;
                     chip.sendChip();
                     this._game.playSound(Path_game_longhu.music_longhu + "chouma.mp3", false);
@@ -972,6 +973,7 @@ module gamelonghu.page {
         //龙虎斗区域下注
         private _betWait: boolean = false;
         private onAreaBetClick(index: number, e: LEvent): void {
+            this.moveHead(this._viewUI.main_player, this._mainHeadPos[0][0], this._mainHeadPos[0][1], this._mainHeadPos[1][0], this._mainHeadPos[1][1]);
             if (this._curStatus != MAP_STATUS.PLAY_STATUS_BET) {
                 this._game.uiRoot.topUnder.showTips("当前不在下注时间，请在下注时间再进行下注！");
                 return;
@@ -1168,7 +1170,7 @@ module gamelonghu.page {
             for (let i = 0; i < this._seatUIList.length; i++) {
                 let unitIndex = this._unitSeated[i][0];
                 let unit = this._game.sceneObjectMgr.getUnitByIdx(unitIndex);
-                let seat = this._seatUIList[i];
+                let seat = this._seatUIList[i] as ui.ajqp.game_ui.tongyong.TouXiangWzUI
                 if (unit) {
                     seat.txt_name.text = getMainPlayerName(unit.GetName());
                     seat.txt_money.text = EnumToString.getPointBackNum(unit.GetMoney(), 2).toString();

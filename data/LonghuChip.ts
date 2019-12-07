@@ -24,7 +24,7 @@ module gamelonghu.data {
 			this._type = type;
 			this._startIndex = startIdx;
 			this._targetIndex = targetIdx - 1;
-			this.rotateAngle = MathU.randomRange(0, 360);
+			this.rotateAngle = 0;
 			this._seatIndex = unitIndex;
 			this._radiusX = targetIdx <= 1 ? 230 : 200;
 			this._radiusY = targetIdx <= 1 ? 40 : 60;
