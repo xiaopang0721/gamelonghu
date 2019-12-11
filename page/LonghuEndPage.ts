@@ -3,7 +3,7 @@
 */
 module gamelonghu.page{
 	export class LonghuEndPage extends game.gui.base.Page {
-		private _viewUI: ui.nqp.game_ui.longhu.StopUI;
+		private _viewUI: ui.ajqp.game_ui.longhu.StopUI;
 		
 		constructor(v: Game, onOpenFunc?: Function, onCloseFunc?: Function) {
 			super(v, onOpenFunc, onCloseFunc);

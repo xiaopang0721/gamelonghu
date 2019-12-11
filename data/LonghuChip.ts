@@ -9,7 +9,7 @@ module gamelonghu.data {
 		//筹码起始位置(主玩家，其他玩家，庄家，座位0，座位1，座位2，座位3，座位4，座位5)  
 		private _chipStart = [[190, 610], [70, 657], [642, 111],
 		[85, 215], [85, 345], [85, 500], [1225, 180], [1225, 345], [1225, 500]];
-		private _chipEnd = [[625, 275], [390, 480], [890, 480]];  //筹码终点位置
+		private _chipEnd = [[622, 275], [400, 480], [880, 480]];  //筹码终点位置
 		private _startIndex: number;
 		private _targetIndex: number;
 		private _radiusX: number;//圆形区域X半径
@@ -17,17 +17,17 @@ module gamelonghu.data {
 		public _seatIndex: number;//精灵座位归属
 		//初始位置，终点位置，筹码类型，筹码大小，筹码层级
 		setData(startIdx: number, targetIdx: number, type: number, value: number, index: number, unitIndex: number) {
-			this.size = 0.4;
+			this.size = 0.46;
 			this.sortScore = -index;
 			this.pos = new Vector2(this._chipStart[startIdx][0], this._chipStart[startIdx][1]);
 			this._val = value.toString();
 			this._type = type;
 			this._startIndex = startIdx;
 			this._targetIndex = targetIdx - 1;
-			this.rotateAngle = 0;
+			this.rotateAngle = MathU.randomRange(0, 360);
 			this._seatIndex = unitIndex;
 			this._radiusX = targetIdx <= 1 ? 230 : 200;
-			this._radiusY = targetIdx <= 1 ? 40 : 60;
+			this._radiusY = targetIdx <= 1 ? 32 : 60;
 		}
 
 		sendChip() {
@@ -50,7 +50,7 @@ module gamelonghu.data {
 			this.targe_pos.x = target[index][0];
 			this.targe_pos.y = target[index][1];
 			if (!this.pos) return;
-			super.flyChipBase(500 + count * 8, game);
+			super.flyChipBase(500 + count * MathU.randomRange(0, 5), game);
 		}
 
 		drawChip() {

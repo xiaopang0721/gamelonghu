@@ -12,12 +12,10 @@ module gamelonghu.page {
 		static PAGE_LONGHU_BEGIN: string = "3";
 		//龙虎斗游戏VS界面
 		static PAGE_LONGHU_VS: string = "4";
-		//龙虎斗玩家列表界面
-		static PAGE_LONGHU_PLAYER_LIST: string = "5";
 		//龙虎斗停止下注界面
-		static PAGE_LONGHU_END: string = "6";
+		static PAGE_LONGHU_END: string = "5";
 		//龙虎斗大路界面
-		static PAGE_LONGHU_ROAD: string = "7";
+		static PAGE_LONGHU_ROAD: string = "6";
 		//龙虎斗游戏规则界面
 		static PAGE_LONGHU_RULE: string = "101";
 
@@ -30,34 +28,37 @@ module gamelonghu.page {
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_BEGIN] = LonghuBeginPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_RULE] = LonghuRulePage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_VS] = LonghuVSPage;
-			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_PLAYER_LIST] = LonghuPlayerListPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_END] = LonghuEndPage;
 			PageDef._pageClassMap[LonghuPageDef.PAGE_LONGHU_ROAD] = LonghuRoadPage;
 
 
 			this["__needLoadAsset"] = [
-				PathGameTongyong.atlas_game_ui_tongyong + "hud.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "pai.atlas",
+				DatingPath.atlas_dating_ui + "qifu.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "hud.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "pai.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "general.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "touxiang.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "chongzhi.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "dating.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "logo.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "general.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "touxiang.atlas",
-				Path_game_longhu.atlas_game_ui + "longhu.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "tuichu.atlas",
-				DatingPath.atlas_dating_ui + "qifu.atlas",
-				Path_game_longhu.atlas_game_ui + "longhu/effect/bipai.atlas",
-				Path_game_longhu.atlas_game_ui + "longhu/effect/hu.atlas",
-				Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "general/effect/suiji.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
-				PathGameTongyong.atlas_game_ui_tongyong + "general/effect/kaipai.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "nyl.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "general/effect/suiji.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "general/effect/kaipai.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/hu.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/bipai.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong_general + "anniu.atlas",
+				PathGameTongyong.atlas_game_ui_tongyong_general_effect + "anniug.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong_general_effect + "ksyx.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong_general_effect + "ksxz.atlas",
 
 				Path.custom_atlas_scene + 'card.atlas',
 				Path.custom_atlas_scene + 'chip.atlas',
 				PathGameTongyong.ui_tongyong_sk + "HeGuan.sk",
 				PathGameTongyong.ui_tongyong_sk + "HeGuan.png",
-
 				Path.map + 'pz_longhu.png',
 				Path.map_far + 'bg_longhu.jpg'
 			]

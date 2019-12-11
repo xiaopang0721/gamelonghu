@@ -28,10 +28,10 @@ module gamelonghu {
             this.RANK_FONT2 = {
                 source: PathGameTongyong.atlas_game_ui_tongyong+ "general.atlas",
                 url: PathGameTongyong.ui_tongyong_general + 'clip_top.png',
-                clipWidth: 28,
-                clipHeight: 31,
-                clipX: 10,
-                space: 0
+                clipWidth: 40,
+                clipHeight: 50,
+                clipX: 11,
+                space: -10
             };
 
             this.JU_FONT = {
@@ -63,7 +63,7 @@ module gamelonghu {
                 space: -8
             };
 
-            //百家乐回合数
+            //游戏回合数
             this.GAME_ROUND = {
                 source: PathGameTongyong.atlas_game_ui_tongyong+ "general.atlas",
                 url: PathGameTongyong.ui_tongyong_general + 'clip_zhuangtai.png',

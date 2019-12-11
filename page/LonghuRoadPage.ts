@@ -3,7 +3,7 @@
 */
 module gamelonghu.page {
 	export class LonghuRoadPage extends game.gui.base.Page {
-		private _viewUI: ui.nqp.game_ui.longhu.ZouShiTuUI;
+		private _viewUI: ui.ajqp.game_ui.longhu.ZouShiTuUI;
 		private _isShenQing: boolean = false;
 		private _mapinfo: LonghuMapInfo;
 		private _gridEditor: GridEditor;
@@ -36,9 +36,9 @@ module gamelonghu.page {
 				"8": PathGameTongyong.ui_tongyong_general + "plsz_8.png",
 				"9": PathGameTongyong.ui_tongyong_general + "plsz_9.png",
 			}
-			this._gridEditor = new GridEditor(36.7, 40, 20, 6, textureTypes, false)
-            this._gridEditor.x = 1.5;
-            this._gridEditor.y = -0.5;
+			this._gridEditor = new GridEditor(38.9, 38.9, 20, 6, textureTypes, false)
+			this._gridEditor.x = 1.2;
+			this._gridEditor.y = 1.4;
 			this._viewUI.box_road.addChild(this._gridEditor);
 			this._game.sceneObjectMgr.on(LonghuMapInfo.EVENT_ROAD_RECORD, this, this.onUpdateRoadInfo);//大路记录变化
 			this._game.sceneObjectMgr.on(LonghuMapInfo.EVENT_GAME_RECORD, this, this.onUpdateRecord);//游戏记录更新
@@ -127,7 +127,7 @@ module gamelonghu.page {
 			super.close();
 		}
 	}
-	class MapRecordRender extends ui.nqp.game_ui.longhu.component.RecordRenderUI {
+	class MapRecordRender extends ui.ajqp.game_ui.longhu.component.RecordRenderUI {
 		private _game: Game;
 		private _data: any;
 		constructor() {
