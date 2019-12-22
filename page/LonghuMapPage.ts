@@ -126,7 +126,6 @@ module gamelonghu.page {
 
             this._viewUI.mouseThrough = true;
             this._game.playMusic(Path_game_longhu.music_longhu + "lh_bgm.mp3");
-            this._viewUI.box_left.left = this._game.isFullScreen ? 25 : 5;
         }
 
         // 页面打开时执行函数
@@ -156,6 +155,7 @@ module gamelonghu.page {
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
+            this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_MAIN_UNIT_CHANGE, this, this.onUpdateChipGrey);
 
             this._game.sceneObjectMgr.on(LonghuMapInfo.EVENT_STATUS_CHECK, this, this.onUpdateStatus);
             this._game.sceneObjectMgr.on(LonghuMapInfo.EVENT_BATTLE_CHECK, this, this.onUpdateBattle);
@@ -180,6 +180,24 @@ module gamelonghu.page {
             this.onUpdateRecord(1);
             this.onUpdateTurn();
             this.updateOnline();
+        }
+
+        protected layout(): void {
+            super.layout();
+            if (this._viewUI) {
+                //全面屏
+                if (this._game.isFullScreen) {
+                    this._viewUI.box_top_left.left = 14 + 56;
+                    this._viewUI.box_room_left.left = 105 + 56;
+                    this._viewUI.box_top_right.right = 28 + 56;
+                    this._viewUI.box_bottom_right.right = 12 + 56;
+                } else {
+                    this._viewUI.box_top_left.left = 14;
+                    this._viewUI.box_room_left.left = 105;
+                    this._viewUI.box_top_right.right = 28;
+                    this._viewUI.box_bottom_right.right = 12;
+                }
+            }
         }
 
         private _curDiffTime: number;
@@ -1148,13 +1166,15 @@ module gamelonghu.page {
 
         //筹码是否置灰（是否下注阶段）
         private onChipDisabled(isBetState: boolean): void {
-            this.onUpdateChipGrey(isBetState);
+            this.onUpdateChipGrey();
             this._viewUI.btn_repeat.disabled = !isBetState;
             if (isBetState) {
                 let index = this._chipArr.indexOf(this._curChip);
                 for (let i: number = 0; i < this._chipUIList.length; i++) {
                     Laya.Tween.to(this._chipUIList[i], { y: i == index ? this._curChipY - 10 : this._curChipY }, 300);
                     this._chipUIList[i].img0.visible = this._chipUIList[i].img1.visible = i == index;
+                    !this._chipUIList[i].disabled && (this._chipUIList[i].mouseEnabled = true);
+                    this._chipUIList[i].alpha = 1;
                     if (i == index) {
                         this._chipUIList[i].ani1.play(0, true);
                     } else {
@@ -1163,23 +1183,22 @@ module gamelonghu.page {
                 }
             } else {
                 for (let i: number = 0; i < this._chipUIList.length; i++) {
-                    Laya.Tween.to(this._chipUIList[i], { y: this._curChipY + 10 }, 300);
-                    this._chipUIList[i].disabled = true;
+                    Laya.Tween.to(this._chipUIList[i], { y: this._curChipY + 20 }, 300);
+                    !this._chipUIList[i].disabled && (this._chipUIList[i].mouseEnabled = false);
+                    this._chipUIList[i].alpha = 0.75;
                     this._chipUIList[i].ani1.gotoAndStop(0);
                     this._chipUIList[i].img0.visible = this._chipUIList[i].img1.visible = false;
                 }
             }
         }
 
-        private onUpdateChipGrey(isBetState: boolean) {
+        private onUpdateChipGrey() {
             if (!this._game.sceneObjectMgr.mainUnit) return;
-            if (!isBetState) return;
             let money: number = this._game.sceneObjectMgr.mainUnit.GetMoney();
             for (let i = 0; i < this._chipUIList.length; i++) {
                 let index = this._chipUIList.length - 1 - i;
                 if (money < this._chipArr[index]) {
                     this._chipUIList[index].disabled = true;
-                    this._chipUIList[index].y = this._curChipY;
                 } else {
                     this._chipUIList[index].disabled = false;
                 }
@@ -1474,6 +1493,7 @@ module gamelonghu.page {
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
+                this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAIN_UNIT_CHANGE, this, this.onUpdateChipGrey);
 
                 this._game.sceneObjectMgr.off(LonghuMapInfo.EVENT_STATUS_CHECK, this, this.onUpdateStatus);
                 this._game.sceneObjectMgr.off(LonghuMapInfo.EVENT_BATTLE_CHECK, this, this.onUpdateBattle);
