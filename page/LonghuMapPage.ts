@@ -60,6 +60,7 @@ module gamelonghu.page {
         private _countDown: number;//倒计时时间戳
         private _curChip: number;//当前选择筹码
         private _curChipY: number;//当前选择筹码y轴位置
+        private _btnRepeatY: number;//重复下注位置
         private _chipSortScore: number = 0;//筹码层级
         private _unitSeated: Array<any> = [];//入座精灵信息集合
         private _chipTotalList: Array<any> = [[], [], []];//区域绘制筹码集合
@@ -155,7 +156,6 @@ module gamelonghu.page {
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
             this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
-            this._game.sceneObjectMgr.on(SceneObjectMgr.EVENT_MAIN_UNIT_CHANGE, this, this.onUpdateChipGrey);
 
             this._game.sceneObjectMgr.on(LonghuMapInfo.EVENT_STATUS_CHECK, this, this.onUpdateStatus);
             this._game.sceneObjectMgr.on(LonghuMapInfo.EVENT_BATTLE_CHECK, this, this.onUpdateBattle);
@@ -313,6 +313,7 @@ module gamelonghu.page {
                 this.onUpdateTurn();
                 this.updateOnline();
                 this.onUpdateGameNo();
+                this.onUpdateChipGrey();
                 if (!this._longhuMgr.isReConnect) {
                     this._viewUI.paixieRight.ani2.gotoAndStop(0);
                 }
@@ -355,18 +356,22 @@ module gamelonghu.page {
                     this._viewUI.main_player.qifu_type.skin = this._qifuTypeImgUrl;
                     this.playTween(this._viewUI.main_player.qifu_type, qifu_index);
                 }
-                //时间戳变化 才加上祈福标志
-                if (TongyongUtil.getIsHaveQiFu(mainUnit, this._game.sync.serverTimeBys)) {
-                    if (qifu_index && mainIdx == qifu_index) {
-                        Laya.timer.once(2500, this, () => {
-                            this._viewUI.main_player.img_qifu.visible = true;
-                            this._viewUI.main_player.img_icon.skin = TongyongUtil.getHeadUrl(mainUnit.GetHeadImg(), 2);
-                        })
-                    }
-                } else {
-                    this._viewUI.main_player.img_qifu.visible = false;
+                //祈福成功 头像上就有动画
+                if (qifu_index && mainIdx == qifu_index) {
+                    this._viewUI.main_player.qifu_type.visible = true;
+                    this._viewUI.main_player.qifu_type.skin = this._qifuTypeImgUrl;
+                    //时间戳变化 才加上祈福标志
+                    this.playTween(this._viewUI.main_player.qifu_type, qifu_index);
+                    Laya.timer.once(2500, this, () => {
+                        this._viewUI.main_player.img_qifu.visible = true;
+                        this._viewUI.main_player.img_icon.skin = TongyongUtil.getHeadUrl(mainUnit.GetHeadImg(), 2);
+                    })
+                }
+                else {
+                    this._viewUI.main_player.img_qifu.visible = TongyongUtil.getIsHaveQiFu(mainUnit, this._game.sync.serverTimeBys);
                     this._viewUI.main_player.img_icon.skin = TongyongUtil.getHeadUrl(mainUnit.GetHeadImg(), 2);
                 }
+                this.onUpdateChipGrey();
             }
             this.onUpdateSeatedList(qifu_index);
         }
@@ -1166,12 +1171,14 @@ module gamelonghu.page {
 
         //筹码是否置灰（是否下注阶段）
         private onChipDisabled(isBetState: boolean): void {
-            this.onUpdateChipGrey();
             this._viewUI.btn_repeat.disabled = !isBetState;
             if (isBetState) {
+                Laya.Tween.to(this._viewUI.btn_repeat, { y: this._btnRepeatY }, 300);
                 let index = this._chipArr.indexOf(this._curChip);
                 for (let i: number = 0; i < this._chipUIList.length; i++) {
-                    Laya.Tween.to(this._chipUIList[i], { y: i == index ? this._curChipY - 10 : this._curChipY }, 300);
+                    Laya.Tween.to(this._chipUIList[i], { y: i == index ? this._curChipY - 10 : this._curChipY }, 300, null, Handler.create(this, () => {
+                        this._isTweenOver = true;
+                    }));
                     this._chipUIList[i].img0.visible = this._chipUIList[i].img1.visible = i == index;
                     !this._chipUIList[i].disabled && (this._chipUIList[i].mouseEnabled = true);
                     this._chipUIList[i].alpha = 1;
@@ -1182,6 +1189,7 @@ module gamelonghu.page {
                     }
                 }
             } else {
+                Laya.Tween.to(this._viewUI.btn_repeat, { y: this._btnRepeatY + 20 }, 300);
                 for (let i: number = 0; i < this._chipUIList.length; i++) {
                     Laya.Tween.to(this._chipUIList[i], { y: this._curChipY + 20 }, 300);
                     !this._chipUIList[i].disabled && (this._chipUIList[i].mouseEnabled = false);
@@ -1192,15 +1200,28 @@ module gamelonghu.page {
             }
         }
 
+        private _isTweenOver: boolean = false;
         private onUpdateChipGrey() {
             if (!this._game.sceneObjectMgr.mainUnit) return;
             let money: number = this._game.sceneObjectMgr.mainUnit.GetMoney();
+            let curMaxChipIndex: number = -1;
             for (let i = 0; i < this._chipUIList.length; i++) {
                 let index = this._chipUIList.length - 1 - i;
+                let chipUI = this._chipUIList[index];
                 if (money < this._chipArr[index]) {
-                    this._chipUIList[index].disabled = true;
+                    chipUI.disabled = true;
                 } else {
-                    this._chipUIList[index].disabled = false;
+                    if (curMaxChipIndex == -1) {
+                        curMaxChipIndex = index;
+                    }
+                    chipUI.disabled = false;
+                }
+            }
+            //如果因为钱不够导致当前选中筹码被置灰，则向下调整选中筹码
+            let curChipIndex = this._chipArr.indexOf(this._curChip);
+            if (curChipIndex > curMaxChipIndex && this._isTweenOver) {
+                if (this._curStatus == MAP_STATUS.PLAY_STATUS_BET) {
+                    this.onSelectChip(curMaxChipIndex);
                 }
             }
         }
@@ -1350,6 +1371,7 @@ module gamelonghu.page {
             this._viewUI.main_player.clip_money.visible = false;
             this._viewUI.main_player.effWin.visible = false;
             //界面UI
+            this._btnRepeatY = this._viewUI.btn_repeat.y;
             this._viewUI.txt_id.visible = false;
             this._viewUI.box_time.visible = false;
             this._viewUI.xipai.visible = false;
@@ -1493,7 +1515,6 @@ module gamelonghu.page {
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_ACTION, this, this.onUpdateUnit);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAPINFO_CHANGE, this, this.onUpdateMapInfo);
                 this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_UNIT_QIFU_TIME_CHANGE, this, this.onUpdateUnit);
-                this._game.sceneObjectMgr.off(SceneObjectMgr.EVENT_MAIN_UNIT_CHANGE, this, this.onUpdateChipGrey);
 
                 this._game.sceneObjectMgr.off(LonghuMapInfo.EVENT_STATUS_CHECK, this, this.onUpdateStatus);
                 this._game.sceneObjectMgr.off(LonghuMapInfo.EVENT_BATTLE_CHECK, this, this.onUpdateBattle);

@@ -36,6 +36,7 @@ module gamelonghu.page {
 				DatingPath.atlas_dating_ui + "qifu.atlas",
 				PathGameTongyong.atlas_game_ui_tongyong + "qifu.atlas",
                 Path_game_longhu.atlas_game_ui + "longhu.atlas",
+				Path_game_longhu.ui_longhu_effect_sk + "longhu.png",
                 PathGameTongyong.atlas_game_ui_tongyong + "hud.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "pai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general.atlas",
