@@ -91,9 +91,12 @@ module gamelonghu.page {
             this._isNeedDuang = false;
             this._delta = 1000;
             this._asset = [
-                PathGameTongyong.atlas_game_ui_tongyong + "qifu.atlas",
                 Path_game_longhu.atlas_game_ui + "longhu.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/hu.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
+                Path_game_longhu.atlas_game_ui + "longhu/effect/bipai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "hud.atlas",
+                PathGameTongyong.atlas_game_ui_tongyong + "qifu.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "pai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "touxiang.atlas",
@@ -103,9 +106,6 @@ module gamelonghu.page {
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/fapai_1.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/xipai.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong + "general/effect/kaipai.atlas",
-                Path_game_longhu.atlas_game_ui + "longhu/effect/hu.atlas",
-                Path_game_longhu.atlas_game_ui + "longhu/effect/long.atlas",
-                Path_game_longhu.atlas_game_ui + "longhu/effect/bipai.atlas",
                 PathGameTongyong.ui_tongyong_sk + "HeGuan.png",
                 PathGameTongyong.atlas_game_ui_tongyong_general + "anniu.atlas",
                 PathGameTongyong.atlas_game_ui_tongyong_general_effect + "ksyx.atlas",
