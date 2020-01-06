@@ -14,7 +14,8 @@ module gamelonghu.page {
 			this._isClickBlack = true;
 			this._isNeedDuang = false;
 			this._asset = [
-				PathGameTongyong.atlas_game_ui_tongyong+ "general.atlas",
+				PathGameTongyong.atlas_game_ui_tongyong + "dating.atlas",
+				PathGameTongyong.atlas_game_ui_tongyong + "general.atlas",
 				Path_game_longhu.atlas_game_ui + "longhu.atlas",
 			];
 		}
@@ -22,7 +23,7 @@ module gamelonghu.page {
 		protected init(): void {
 			this._viewUI = this.createView('game_ui.longhu.ZouShiTuUI');
 			this.addChild(this._viewUI);
-			
+
 			let textureTypes = {
 				"L": PathGameTongyong.ui_tongyong_general + "tu_lq.png",//龙
 				"H": PathGameTongyong.ui_tongyong_general + "tu_yq0.png",//虎
